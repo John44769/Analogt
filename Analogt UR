@@ -1,0 +1,58 @@
+import pygame
+import math
+import datetime
+from datetime import time
+
+pygame.init()
+screen_size = (640, 480)
+screen = pygame.display.set_mode(screen_size)
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+    screen.fill((255, 255, 255))
+
+    start_position = (screen_size[0]/2, screen_size[1]/2)
+
+    pygame.draw.circle(screen, (0,0,0), start_position, 200, 5)
+
+    radius = 200
+    for angle in range(0, 360, 30):
+        end_offset = [radius*math.cos(math.radians(angle)), radius*math.sin(math.radians(angle))]
+        end_position = (start_position[0]+end_offset[0], start_position[1]+end_offset[1])
+        pygame.draw.line(screen, (0,0,0), start_position, end_position, 5)
+
+    radius = 170
+    for angle in range(0, 360, 30):
+        end_offset = [radius*math.cos(math.radians(angle)), radius*math.sin(math.radians(angle))]
+        end_position = (start_position[0]+end_offset[0], start_position[1]+end_offset[1])
+        pygame.draw.line(screen, (255,255,255), start_position, end_position, 10)
+
+    clock = pygame.time.Clock()
+    current_time = datetime.datetime.now()
+    hours = current_time.hour
+    minutes = current_time.minute
+    seconds = current_time.second
+
+    hour_angle = math.radians((hours) * 30 - 90)
+    hour_length = 100
+    hour_end_offset = [hour_length * math.cos(hour_angle), hour_length * math.sin(hour_angle)]
+    hour_end_position = (start_position[0] + hour_end_offset[0], start_position[1] + hour_end_offset[1])
+    pygame.draw.line(screen, (0, 0, 0), start_position, hour_end_position, 5)
+    
+    minute_angle = math.radians(minutes * 6 - 90)
+    minute_length = 150
+    minute_end_offset = [minute_length * math.cos(minute_angle), minute_length * math.sin(minute_angle)]
+    minute_end_position = (start_position[0] + minute_end_offset[0], start_position[1] + minute_end_offset[1])
+    pygame.draw.line(screen, (0, 0, 0), start_position, minute_end_position, 3)
+    
+    second_angle = math.radians(seconds * 6 - 90)
+    second_length = 150
+    second_end_offset = [second_length * math.cos(second_angle), second_length * math.sin(second_angle)]
+    second_end_position = (start_position[0] + second_end_offset[0], start_position[1] + second_end_offset[1])
+    pygame.draw.line(screen, (255, 0, 0), start_position, second_end_position, 2)
+    
+    pygame.display.flip()
+    clock.tick(60)
